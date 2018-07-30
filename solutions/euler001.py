@@ -1,11 +1,16 @@
 """Sum all the multiples of 3 and 5 below 1000
-n:int
+n;upper bound;int
 #basics
 
 If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
 
 Find the sum of all the multiples of 3 or 5 below 1000.
 """
+
+
+def run(n):
+    return attempt_3(n)
+
 
 def attempt_1(n):
     x = 1
@@ -24,6 +29,7 @@ def attempt_1(n):
 
     return s
 
+
 def attempt_2(n):
     x = 1
     s = 0
@@ -36,6 +42,7 @@ def attempt_2(n):
         x += 1
 
     return s
+
 
 def attempt_3(n):
     s = 0
