@@ -8,7 +8,7 @@ if __name__ == "__main__":
 
     y = ""
     while 1:
-        x = int(input("Please type a number to start the corrsponding Euler script:\n"))
+        x = int(input("Please type a number to start the corresponding Euler script:\n"))
         module = "euler" + ("000" + str(x))[-3::]
 
         if module not in s.modules:

@@ -12,7 +12,6 @@ By considering the terms in the Fibonacci sequence whose values do not exceed fo
 def run(n):
     return sum(attempt_1(n))
 
-
 def attempt_1(n):
     fib = [0, 1]
     while fib[-1] < n:
