@@ -1,4 +1,5 @@
 import solutions as s
+import time
 
 if __name__ == "__main__":
     print("Available modules: ")
@@ -30,5 +31,10 @@ if __name__ == "__main__":
 
        inst.append(q)
 
+    t = time.time()
+    print("Now running program.")
     ret = eval("s.{}.run(*inst)".format(module))
+    print()
     print(ret)
+    print()
+    print("It took {} seconds".format(time.time() - t))

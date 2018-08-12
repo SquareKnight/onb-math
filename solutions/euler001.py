@@ -9,7 +9,7 @@ Find the sum of all the multiples of 3 or 5 below 1000.
 
 
 def run(n):
-    return attempt_3(n)
+    return attempt_1(n)
 
 
 def attempt_1(n):
