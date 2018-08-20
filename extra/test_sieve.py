@@ -1,35 +1,43 @@
 import math
 
-def prime_sieve(n):
-    nums = [False, False, True]
-    nums.extend([True] * (n-2))
+def prime_factors(n):
+    pf = [1]
+    lim = math.ceil(math.sqrt(n))
+    primes = sieve_of_eratosthenes(lim)
 
-    for x in range(n+1):
-        if not nums[x]:
+    for p in primes:
+        if n == 1:
+            break
+        while n % p == 0:
+            pf.append(p)
+            n = n / p
+
+    if n > 1:
+        pf.append(n)
+
+    return pf
+
+def sieve_of_eratosthenes(upper):
+    candidates = [False, False, True]
+    second_list = [True] * (upper - 2)
+    candidates.extend(second_list)
+
+    for i in range(0, upper + 1):
+        if candidates[i] == False:
             continue
 
-        y = x*2
-        print(x, y)
-        nums[y:n+1:x] = [False] * math.floor(n/x-1)
-    return(nums)
+        for multiple in range(i*i, upper + 1, i):
+            candidates[multiple] = False
 
-
-def sieve_of_eratosthenes(n):
-    is_prime = [True] * (n+1)
-    primes = [2]
-
-    for p in range(3, n + 1, 2):
-        if is_prime[p]:
-            primes.append(p)
-
-            for multiple in range(p * p, n + 1, p + p):
-                is_prime[multiple] = False
-
+    primes = []
+    for i, b in enumerate(candidates):
+        if b:
+            primes.append(i)
     return primes
 
 
 if __name__ == '__main__':
-    l = prime_sieve(1000)
+    l = sieve_of_eratosthenes(1000)
     for i, x in enumerate(l):
         if l[i]:
             print(i, x)
