@@ -3,7 +3,6 @@ import math
 _primes = []
 
 def _sieve_of_eratosthenes(upper):
-    print("sieve")
     candidates = [False, False, True]
     second_list = [True] * (upper - 2)
     candidates.extend(second_list)
