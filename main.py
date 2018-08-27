@@ -23,7 +23,11 @@ if __name__ == "__main__":
     inst = []
     for i in inputs:
        tmp = i.split(';')
-       q = input(tmp[1] + '\n')
+       default = None if len(tmp) < 4 else tmp[3]
+       q = input(tmp[1] + '{}\n'.format(' (default value: ' + default + ')' if default is not None else ''))
+       if q == '' and default is not None:
+           q = default
+
        if tmp[2] == 'int':
            q = int(q)
        else:
