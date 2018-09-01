@@ -1,23 +1,51 @@
 import math
 
+__boolean_primes_register = []
 _primes = []
 
 def _sieve_of_eratosthenes(upper):
-    candidates = [False, False, True]
-    second_list = [True] * (upper - 2)
-    candidates.extend(second_list)
+    global _primes, __boolean_primes_register
 
-    for i in range(0, upper + 1):
-        if candidates[i] == False:
+    # see how many numbers we've sieved through before
+    primes_sieved = 0 if __boolean_primes_register == [] else len(__boolean_primes_register)
+
+    # If we've already checked everything up to Upper, then quit the function
+    if primes_sieved >= upper + 1:
+        return
+
+    # if not, extend the BPR
+    if __boolean_primes_register == []:
+        __boolean_primes_register = [False, False, True]
+        second_list = [True] * (upper - 2)
+        __boolean_primes_register.extend(second_list)
+    else:
+        __boolean_primes_register.extend([True]*(1 + upper - primes_sieved))
+
+    # take into account all the primes we've found before
+    for p in _primes:
+        # check to see where the first multiple lies in the range (already solved) ... (upper bound):
+        mod = primes_sieved % p
+        lower = primes_sieved - mod + (p if mod > 0 else 0)
+        if p*p > upper:
+            break
+
+        for multiple in range(max(lower, p*p), upper + 1, p):
+            __boolean_primes_register[multiple] = False
+
+    # then apply the regular Sieve of E.
+    for i in range(primes_sieved, upper + 1):
+        if not __boolean_primes_register[i]:
             continue
 
-        for multiple in range(i*i, upper + 1, i):
-            candidates[multiple] = False
+        if i*i > upper:
+            break
 
-    global _primes
-    _primes = []
-    for i, b in enumerate(candidates):
-        if b:
+        for multiple in range(i*i, upper + 1, i):
+            __boolean_primes_register[multiple] = False
+
+    # now add all the new-found primes to _primes
+    for i in range(primes_sieved, upper + 1):
+        if __boolean_primes_register[i]:
             _primes.append(i)
 
 def prime_factors(n):
