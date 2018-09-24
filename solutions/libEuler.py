@@ -3,6 +3,7 @@ import math
 __boolean_primes_register = []
 _primes = []
 
+
 def _sieve_of_eratosthenes(upper):
     global _primes, __boolean_primes_register
 
@@ -48,19 +49,28 @@ def _sieve_of_eratosthenes(upper):
         if __boolean_primes_register[i]:
             _primes.append(i)
 
+
 def prime_factors(n):
+    """
+    Returns all prime factors of n
+    :param n: The number to get the prime factors of
+    :return: list of prime factors, with duplicates if applicable: 4 -> [2, 2]
+    """
     global _primes
     pf = [1]
     lim = math.ceil(math.sqrt(n))
-    if len(_primes) == 0 or max(_primes) < lim:
-        _sieve_of_eratosthenes(lim)
+    _sieve_of_eratosthenes(lim)
 
-    for p in _primes:
+    # Use every prime, in order from 2 to (at least) lim to deconstruct n
+    for p in primes_list(1, lim):
         if n == 1:
-            break
+            break   # n has been fully deconstructed
         while n % p == 0:
+            # if n can be divided by prime p, do so, and add p to the list of prime factors
+            # This is in a while-loop because the same prime might divide n multiple times: 8 / 2 = 4, /2 = 2, /2 = 1
             pf.append(p)
             n = n / p
+
 
     if n > 1:
         pf.append(n)
@@ -68,3 +78,25 @@ def prime_factors(n):
     if len(pf) > 1:
         pf = pf[1::]
     return pf
+
+
+def primes_list(lower, upper, overshoot_upperbound = False):
+    """
+    Returns a list with all primes between lower and upper bound
+    :param lower: Lower bound
+    :param upper: Upper bound
+    :param overshoot_upperbound: If this is true, the last boolean will be bigger than upper, ie upper will be inside of the range.
+    :return: list
+    """
+    if upper < lower:
+        lower, upper = upper, lower
+    _sieve_of_eratosthenes(upper)
+    primes = [p for p in _primes if p >= lower and p <= upper]
+    if overshoot_upperbound and primes[-1] < upper:
+        tmp = upper
+        while _primes[-1] == primes[-1]:
+            tmp += 1
+            _sieve_of_eratosthenes(tmp)
+        x = _primes.index(primes[-1]) + 1
+        primes.append(_primes[x])
+    return primes

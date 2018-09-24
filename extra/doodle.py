@@ -1,39 +1,115 @@
-import math
+import time
 
-def x1():
-    i = 0
-    for a in range(1, 1000):
-        for b in range(a, 1000):
-            i += 1
-            c = math.sqrt(a**2 + b**2)
-            #print(a, b, c)
-            if c%1==0 and a+b+c == 1000:
-                return (a*b*c, i)
+def keywithmaxval(d):
+     """ a) create a list of the dict's keys and values;
+         b) return the key with the max value"""
+     v=list(d.values())
+     k=list(d.keys())
+     return k[v.index(max(v))]
 
 
-def x2():
-    i = 0
-    m = 10
-    n = 10
-    a, b, c = 0, 0, 0
-    while a+b+c != 1000:
-        i += 1
-        a, b, c = max(m, n)**2 - min(m, n)**2, 2*m*n, m**2 + n**2
-        #print(a, b, c)
-        if a+b+c > 1000:
-            m-=1
-        elif a+b+c < 1000:
-            n+=1
+def tim(x):
+    mx = 0
+    def even_or_odd(n):
 
-    return (a*b*c, i)
+        if n % 2 == 0:
+            return  n/2
+        if n % 2 != 0:
+            return (3 * n )+1
+
+    check_list = []
+    largest_list = []
+
+    for n in range(2, x):
+        list = []
+        range_count = n
+        while n != 1:
+            test = even_or_odd(n)
+            n = test
+            list.append(n)
+        check_list = list
+
+        if len(check_list) >= len(largest_list):
+            largest_list = check_list
+            mx = range_count
+            #print(len(largest_list),range_count)
+
+            #print(n)
+            #print(largest_list)
+    return mx
+
+def pim(x):
+    dchains = {1: 0}
+    for i in range(2, x+1):
+        j = i
+        chain_length = 0
+        while j != 1:
+            chain_length += 1
+            if j % 2 == 0:
+                j /= 2
+            else:
+                j = j * 3 + 1
+            if j in dchains:
+                chain_length += dchains[j]
+                break
+
+        dchains[i] = chain_length
+
+    return keywithmaxval(dchains)
 
 
-import time as tx
+def pim2(x):
+    dchains = {1: 0}
+    for i in range(2, x+1):
+        j = i
+        chain = []
+        chain_length = 0
+        while j != 1:
+            chain.append(j)
+            if j % 2 == 0:
+                j /= 2
+            else:
+                j = j * 3 + 1
+            if j in dchains:
+                chain_length += dchains[j]
+                break
+        chain_length += len(chain)
 
-t = tx.time()
-print(x1())
-print(tx.time() - t)
+        q = chain.pop(0)
+        while q not in dchains:
+            dchains[q] = chain_length
+            #print("Added {0}: {1}".format(q, chain_length))
+            chain_length -= 1
+            if len(chain) < 1:
+                break
+            q = chain.pop(0)
 
-t = tx.time()
-print(x2())
-print(tx.time() - t)
+
+    return keywithmaxval(dchains)
+
+
+import solutions.libEuler as e
+
+if __name__ == "__main__":
+    """
+    x = 1*10**6
+    start_time = time.time()
+    #print(tim(x))
+    end_time = time.time()
+    print("total time:", (end_time - start_time))
+
+    start_time = time.time()
+    print(pim(x))
+    end_time = time.time()
+    print("total time:", (end_time - start_time))
+
+    start_time = time.time()
+    print(pim2(x))
+    end_time = time.time()
+    print("total time:", (end_time - start_time))
+    """
+
+    p = e.primes_list(1, 16)
+    print(p)
+    p = e.primes_list(1, 16, True)
+    print(p)
