@@ -6,7 +6,7 @@ _primes = []
 
 def _sieve_of_eratosthenes(upper):
     global _primes, __boolean_primes_register
-
+    upper = int(upper)
     # see how many numbers we've sieved through before
     primes_sieved = 0 if __boolean_primes_register == [] else len(__boolean_primes_register)
 
@@ -77,6 +77,7 @@ def prime_factors(n):
 
     if len(pf) > 1:
         pf = pf[1::]
+    _sieve_of_eratosthenes(pf[-1])
     return pf
 
 

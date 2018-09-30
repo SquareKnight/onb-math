@@ -113,3 +113,6 @@ if __name__ == "__main__":
     print(p)
     p = e.primes_list(1, 16, True)
     print(p)
+    print(e._primes)
+    pf = e.prime_factors(62)
+    print(e._primes)
