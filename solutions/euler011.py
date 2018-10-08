@@ -8,6 +8,9 @@ The product of these numbers is 26 × 63 × 78 × 14 = 1788696.
 What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the 20×20 grid?
 """
 
+import solutions.libEuler as e
+
+
 big_grid = """08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
 49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00
 81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65
@@ -53,16 +56,6 @@ def get_subgrid(grid, subgrid_width, subgrid_height, overlap=True):
     return slices
 
 
-def product_of_list(lst):
-    lst = list(map(int, lst))
-    if 0 in lst: return 0
-
-    p = 1
-    for x in lst:
-        p *= x
-    return p
-
-
 def max_product_on_grid(grid):
     """
     Returns the highest product found on any axis ( |, - and \ / ) of the grid given
@@ -74,14 +67,14 @@ def max_product_on_grid(grid):
 
     # all rows
     for row in grid:
-        results.append(product_of_list(row))
+        results.append(e.product_of_list(row))
 
     #diagonals
     for i in range(len(grid[0])):
         tmp.append(grid[i][i])
         tmp.append(grid[i][len(grid[0]) - i - 1])
-    results.append(product_of_list(tmp[0::2]))
-    results.append(product_of_list(tmp[1::2]))
+    results.append(e.product_of_list(tmp[0::2]))
+    results.append(e.product_of_list(tmp[1::2]))
 
     # flipping the grid
     grid = list(zip(*grid))

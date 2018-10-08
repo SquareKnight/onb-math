@@ -58,7 +58,7 @@ def prime_factors(n):
     """
     global _primes
     pf = [1]
-    lim = math.ceil(math.sqrt(n))
+    lim = math.ceil(math.sqrt(n)) + 1
     _sieve_of_eratosthenes(lim)
 
     # Use every prime, in order from 2 to (at least) lim to deconstruct n
@@ -101,3 +101,13 @@ def primes_list(lower, upper, overshoot_upperbound = False):
         x = _primes.index(primes[-1]) + 1
         primes.append(_primes[x])
     return primes
+
+
+def product_of_list(lst):
+    lst = list(map(int, lst))
+    if 0 in lst: return 0
+
+    p = 1
+    for x in lst:
+        p *= x
+    return p
