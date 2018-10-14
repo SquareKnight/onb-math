@@ -1,26 +1,21 @@
 import math
 
-__boolean_primes_register = []
-_primes = []
+__boolean_primes_register = [False, False, True]
+_primes = [2]
 
 
 def _sieve_of_eratosthenes(upper):
     global _primes, __boolean_primes_register
     upper = int(upper)
     # see how many numbers we've sieved through before
-    primes_sieved = 0 if __boolean_primes_register == [] else len(__boolean_primes_register)
+    primes_sieved = len(__boolean_primes_register)
 
     # If we've already checked everything up to Upper, then quit the function
-    if primes_sieved >= upper + 1:
+    if primes_sieved > upper:
         return
 
     # if not, extend the BPR
-    if __boolean_primes_register == []:
-        __boolean_primes_register = [False, False, True]
-        second_list = [True] * (upper - 2)
-        __boolean_primes_register.extend(second_list)
-    else:
-        __boolean_primes_register.extend([True]*(1 + upper - primes_sieved))
+    __boolean_primes_register.extend([True]*(1 + upper - primes_sieved))
 
     # take into account all the primes we've found before
     for p in _primes:
@@ -49,6 +44,8 @@ def _sieve_of_eratosthenes(upper):
         if __boolean_primes_register[i]:
             _primes.append(i)
 
+    #print(upper, [(i, x) for i, x in enumerate(__boolean_primes_register)], _primes)
+
 
 def prime_factors(n):
     """
@@ -58,7 +55,8 @@ def prime_factors(n):
     """
     global _primes
     pf = [1]
-    lim = math.ceil(math.sqrt(n)) + 1
+    lim = math.ceil(math.sqrt(n))
+    #print(n, math.sqrt(n), math.ceil(math.sqrt(n)) + 1)
     _sieve_of_eratosthenes(lim)
 
     # Use every prime, in order from 2 to (at least) lim to deconstruct n
