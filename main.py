@@ -19,8 +19,9 @@ if __name__ == "__main__":
 
     m = s.modules[module]
     print("Running '{}'.\nGathering inputs ...\n".format(m[1]))
-    inputs = m[2].split('\t')
+    inputs = m[2].split('`')
     inst = []
+    print("Inputs: ", inputs)
     for i in inputs:
        tmp = i.split(';')
        default = None if len(tmp) < 4 else tmp[3]
