@@ -8,38 +8,38 @@ How many such routes are there through a 20×20 grid?
 
 
 def attempt_1(m, n):
-	grid = []
-	grid.append(list([1]*(n+1)))
-	for i in range(1, m+1):
-		grid.append([])
-		row = grid[i]
-		row.append(1)
-		for j in range(1, n+1):
-			row.append(grid[i-1][j] + row[j-1])
+    grid = []
+    grid.append(list([1]*(n+1)))
+    for i in range(1, m+1):
+        grid.append([])
+        row = grid[i]
+        row.append(1)
+        for j in range(1, n+1):
+            row.append(grid[i-1][j] + row[j-1])
 
-	return grid.pop().pop()
+    return grid.pop().pop()
 
 
 def attempt_2(m, n):
-	row = [1] * (n+1)
+    row = [1] * (n+1)
 
-	for i in range(m):
-		for j in range(1, n+1):
-			row[j] = row[j] + row[j-1]
+    for i in range(m):
+        for j in range(1, n+1):
+            row[j] = row[j] + row[j-1]
 
-	return row.pop()
+    return row.pop()
 
 
 import math
 def attempt_3(m, n):
-	return math.factorial(m+n) // (math.factorial(m) * math.factorial(n))
+    return math.factorial(m+n) // (math.factorial(m) * math.factorial(n))
 
 
 def run(m, n):
-	#return attempt_1(m, n)
-	#return attempt_2(m, n)
-	return attempt_3(m, n)
+    #return attempt_1(m, n)
+    #return attempt_2(m, n)
+    return attempt_3(m, n)
 
 
 if __name__ == '__main__':
-	print(run(3, 3))
+    print(run(3, 3))

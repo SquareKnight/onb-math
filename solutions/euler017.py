@@ -1,3 +1,15 @@
+"""Number letter counts
+n;Numbers up to n;int;1000
+#Basic
+If the numbers 1 to 5 are written out in words: one, two, three, four, five, then there are 3 + 3 + 5 + 4 + 4 = 19 letters used in total.
+
+If all the numbers from 1 to 1000 (one thousand) inclusive were written out in words, how many letters would be used?
+
+NOTE: Do not count spaces or hyphens. For example, 342 (three hundred and forty-two) contains 23 letters and 115 (one hundred and fifteen) contains 20 letters.
+The use of "and" when writing out numbers is in compliance with British usage.
+"""
+
+
 def number_to_wordlist(n):
     ones = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'
         , 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen']
@@ -17,7 +29,6 @@ def number_to_wordlist(n):
         s = str(n)
         x = int(s[0])
         magn = len(s)
-
         new_n = n - (x*10**(magn-1))
 
         if magn > 2:
@@ -37,11 +48,21 @@ def num_as_word(n, delim = ''):
     s = number_to_wordlist(n)
     return delim.join(s)
 
-def test(x):
-    s = (num_as_word(x), num_as_word(x, ' '))
-    print(s[1], len(s[0]))
 
-som = 0
-for q in range(1, 1000+1):
-    som += len(num_as_word(q))
-print(som)
+def attempt_1(n):
+    results = []
+    for i in range(1, n+1):
+        results.append(num_as_word(i))
+
+    s = []
+    for r in results:
+        s.append(len(r))
+    return sum(s)
+
+
+def run(n):
+    return attempt_1(n)
+
+
+if __name__ == '__main__':
+    print(run(5))
