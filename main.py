@@ -21,20 +21,23 @@ if __name__ == "__main__":
     print("Running '{}'.\nGathering inputs ...\n".format(m[1]))
     inputs = m[2].split('`')
     inst = []
-    print("Inputs: ", inputs)
+    #print("Inputs: ", inputs)
     for i in inputs:
-       tmp = i.split(';')
-       default = None if len(tmp) < 4 else tmp[3]
-       q = input(tmp[1] + '{}\n'.format(' (default value: ' + default + ')' if default is not None else ''))
-       if q == '' and default is not None:
-           q = default
+        tmp = i.split(';')
+        if tmp[0] == '':
+            continue
 
-       if tmp[2] == 'int':
-           q = int(q)
-       else:
-           pass
+        default = None if len(tmp) < 4 else tmp[3]
+        q = input(tmp[1] + '{}\n'.format(' (default value: ' + default + ')' if default is not None else ''))
+        if q == '' and default is not None:
+            q = default
 
-       inst.append(q)
+        if tmp[2] == 'int':
+            q = int(q)
+        else:
+            pass
+
+        inst.append(q)
 
     t = time.time()
     print("Now running program.")
