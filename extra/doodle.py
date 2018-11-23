@@ -1,10 +1,5 @@
 import datetime
 
-d = datetime.date(1901, 1, 1)
-
-count_sundays = 0
-while d.year < 2001:
-    count_sundays += (d.weekday() == 6)
-    d = datetime.date(d.year + (d.month==12), (d.month + 1) if d.month < 12 else 1, 1)
-
-print(count_sundays)
+list_of_date_params = [(y, m, 1) for m in range(1, 13) for y in range(1901, 2001)]
+list_of_dates = [d for d in [datetime.date(y, m, d) for (y, m, d) in list_of_date_params] if d.weekday() == 6]
+print(len(list_of_dates))

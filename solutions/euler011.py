@@ -81,7 +81,7 @@ def max_product_on_grid(grid):
 
     # all cols
     for row in grid:
-        results.append(product_of_list(row))
+        results.append(e.product_of_list(row))
 
     if len(results) > 0:
         return max(results)
