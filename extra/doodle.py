@@ -1,38 +1,40 @@
-import math
+import solutions.libEuler as e
 
-def divisors(n):
-    n = abs(n)
-    if n <= 1: return [0]
-    r = []
-    for i in range(2, int(math.sqrt(n))+1):
-        if n%i == 0:
-            r.extend([i, n//i])
-    return set(r)
+n = 28123
+abundants = []
+for i in range(1, n+1):
+    d = e.divisors(i)
+    if sum(d) > i:
+        abundants.append(i)
 
+print(abundants)
 
-def amicable_1(n):
-    amicable = []
-    l = [*range(1, n+1)]
-    for i in l:
-        a = i
-        x = sum(divisors(a))
-        b = x
-        y = sum(divisors(b))
+can_be_sums = []
+for i in range(len(abundants)-1):
+    for j in range(i, len(abundants)):
+        q = abundants[i] + abundants[j]
+        if q > n: break
+        can_be_sums.append(q)
 
-        if x == y:
-            print(a, x, b, y)
+can_be_sums = set(can_be_sums)
+print(can_be_sums)
+print(sum([x for x in range(n) if x not in can_be_sums]))
 
-    return amicable
+exit()
+# can n be written as the sum of two abundants?
+# one way of testing that is n-(a) and checking if that is on the list
+result = []
+for i in range(1, n+1):
+    valid = True
+    for a in abundants:
+        q = i-a
+        if q <= 0:
+            break
+        else:
+            if q in abundants:
+                valid = False
+                break
+    print(i)
+    if valid: result.append(i)
 
-
-l = amicable_1(10000)
-print(l)
-print(sum(l))
-
-
-"""
-s = []
-for q in range(2, 10001):
-    s.extend(divisors(q))
-print(sum(s))
-"""
+print(result)

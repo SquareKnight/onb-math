@@ -109,3 +109,22 @@ def product_of_list(lst):
     for x in lst:
         p *= x
     return p
+
+
+def divisors(n, exclude_n=True):
+    """
+    Given n, returns a list of all divisors op n
+    :param n:           Number to divide
+    :param exclude_n:   Flag to signify if n itself should be on the list
+    :return:            List of divisors, or [] for n < 1
+    """
+    if n < 1: return []
+    r = []
+    for i in range(1, int(math.sqrt(n))+1):
+        if n % i == 0:
+            r.append(i)
+            r.append(n//i)
+
+    if exclude_n:
+        r.remove(n)
+    return set(r)
