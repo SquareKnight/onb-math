@@ -1,40 +1,52 @@
-import solutions.libEuler as e
+from math import factorial
 
-n = 28123
-abundants = []
-for i in range(1, n+1):
-    d = e.divisors(i)
-    if sum(d) > i:
-        abundants.append(i)
 
-print(abundants)
+def permutate(lst, index):
+    """
+    Returns the lexicographic permutation of lst's elements at index N
+    :param lst:     The items to permutate
+    :param index:   The index into the lexigraphic catalog
+    :return:        A re-ordered list of all of lst's elements 
+    """""
+    if not lst:
+        return []
 
-can_be_sums = []
-for i in range(len(abundants)-1):
-    for j in range(i, len(abundants)):
-        q = abundants[i] + abundants[j]
-        if q > n: break
-        can_be_sums.append(q)
+    if len(lst) == 1:
+        return  lst
 
-can_be_sums = set(can_be_sums)
-print(can_be_sums)
-print(sum([x for x in range(n) if x not in can_be_sums]))
-
-exit()
-# can n be written as the sum of two abundants?
-# one way of testing that is n-(a) and checking if that is on the list
-result = []
-for i in range(1, n+1):
-    valid = True
-    for a in abundants:
-        q = i-a
-        if q <= 0:
-            break
+    def inner_permutate(lst, index):
+        # len(lst) gets the number of list elements; factorial over that tells us the number of ways we can arrange them.
+        # The given index must fall within that range, modulo enforces that
+        index = index % factorial(len(lst))
+        slot =  int(index / factorial(len(lst)-1))
+        if len(lst) == 2:
+            return [lst[index]] + [lst[1-index]]
         else:
-            if q in abundants:
-                valid = False
-                break
-    print(i)
-    if valid: result.append(i)
+            #print('popping el {0}  off list {1}'.format(slot, lst))
+            return [lst.pop(slot)] + inner_permutate(lst, index)
 
-print(result)
+    lst = sorted(lst)
+    return inner_permutate(lst, index)
+
+
+LISTS = [[], ['a'], ['a', 'b', 'c', 'd']]
+TESTS = [(0, LISTS[0])
+        ,(5, LISTS[0])
+        ,(0, LISTS[1])
+        ,(5, LISTS[1])
+        ,(0, LISTS[2])
+        ,(5, LISTS[2])
+        ,(6, LISTS[2])
+        ,(23, LISTS[2])
+        ,(24, LISTS[2])
+        ,(25, LISTS[2])
+        ,(222, LISTS[2])
+        ]
+
+for t in TESTS:
+    print(t[1], t[0], permutate(t[1], t[0]))
+
+for i in range(48):
+    print(permutate('abcd', i))
+
+print(permutate('0123456789', 10**6-1))

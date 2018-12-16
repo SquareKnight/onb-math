@@ -34,6 +34,8 @@ if __name__ == "__main__":
 
         if tmp[2] == 'int':
             q = int(q)
+        elif tmp[2] == 'list':
+            q = eval(q)
         else:
             pass
 

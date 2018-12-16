@@ -128,3 +128,33 @@ def divisors(n, exclude_n=True):
     if exclude_n:
         r.remove(n)
     return set(r)
+
+
+def permutate(lst, index):
+    """
+    Given a list and an index, it will return the N'th lexicographically ordered permutation
+    :param lst:     the collection of elements to arrange
+    :param index:   the index into the permutation catalog
+    :return:        a list with the requested permutation
+    """
+    if len(lst) == 0:
+        return []
+
+    if len(lst) == 1:
+        return lst
+
+    lst = (sorted(lst))
+
+    def inner_permutate(l, i):
+        if len(l) == 2:
+            x = i % 2
+            return [l[x], l[1-x]]
+
+        f = math.factorial(len(l))
+        i = int(i) % f
+
+        g = math.factorial(len(l) - 1)
+        SLOT = int(i / g)
+        return [l.pop(SLOT)] + inner_permutate(l, i)
+
+    return inner_permutate(lst, index)
