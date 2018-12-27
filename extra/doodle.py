@@ -1,52 +1,41 @@
-from math import factorial
+def probs_31():
 
+    coins = [1, 2, 5, 10, 20, 50, 100, 200]
+    target = 200
 
-def permutate(lst, index):
-    """
-    Returns the lexicographic permutation of lst's elements at index N
-    :param lst:     The items to permutate
-    :param index:   The index into the lexigraphic catalog
-    :return:        A re-ordered list of all of lst's elements 
-    """""
-    if not lst:
-        return []
+    ways_to_make_x = dict()
+    for i in range(1, target+1):
+        w = []
+        for c in coins:
+            y = i - c
+            if y < 0:
+                break
 
-    if len(lst) == 1:
-        return  lst
+            if y == 0:
+                w.append([c])
+                break
 
-    def inner_permutate(lst, index):
-        # len(lst) gets the number of list elements; factorial over that tells us the number of ways we can arrange them.
-        # The given index must fall within that range, modulo enforces that
-        index = index % factorial(len(lst))
-        slot =  int(index / factorial(len(lst)-1))
-        if len(lst) == 2:
-            return [lst[index]] + [lst[1-index]]
-        else:
-            #print('popping el {0}  off list {1}'.format(slot, lst))
-            return [lst.pop(slot)] + inner_permutate(lst, index)
+            if y > 0:
+                w_prev = ways_to_make_x[y]
+                for wp in w_prev:
+                    w.append(sorted([c] + list(wp)))
 
-    lst = sorted(lst)
-    return inner_permutate(lst, index)
+        w = tuple([tuple(l) for l in w])
+        ways_to_make_x[i] = set(tuple(w))
 
+    print(len(ways_to_make_x[target]))
 
-LISTS = [[], ['a'], ['a', 'b', 'c', 'd']]
-TESTS = [(0, LISTS[0])
-        ,(5, LISTS[0])
-        ,(0, LISTS[1])
-        ,(5, LISTS[1])
-        ,(0, LISTS[2])
-        ,(5, LISTS[2])
-        ,(6, LISTS[2])
-        ,(23, LISTS[2])
-        ,(24, LISTS[2])
-        ,(25, LISTS[2])
-        ,(222, LISTS[2])
-        ]
+def fibonacci(a=1, b=1):
+    yield a
+    yield b
+    while 1:
+        a, b = b, a+b
+        yield b
 
-for t in TESTS:
-    print(t[1], t[0], permutate(t[1], t[0]))
+def probs_25():
+    for i, q in enumerate(fibonacci(0, 1)):
+        print(len(str(q)))
+        if len(str(q))>=1000:
+            return i
 
-for i in range(48):
-    print(permutate('abcd', i))
-
-print(permutate('0123456789', 10**6-1))
+print(probs_25())
