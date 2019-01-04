@@ -25,17 +25,22 @@ def probs_31():
 
     print(len(ways_to_make_x[target]))
 
-def fibonacci(a=1, b=1):
-    yield a
-    yield b
-    while 1:
-        a, b = b, a+b
-        yield b
+def get_next_digit(numer, denom):
+    next_dig, modulo = divmod(numer, denom)
+    yield (next_dig, modulo)
+    while True:
+        modulo *=10
+        next_dig, modulo = divmod(modulo, denom)
+        yield (next_dig, modulo)
 
-def probs_25():
-    for i, q in enumerate(fibonacci(0, 1)):
-        print(len(str(q)))
-        if len(str(q))>=1000:
-            return i
 
-print(probs_25())
+for q in range(999, 980, -1):
+    dig_iter = get_next_digit(1, q)
+    mods_seen = []
+    t = next(dig_iter)
+    while t[1] not in mods_seen and t[1] != 0:
+        mods_seen.append(t[1])
+        # print(t[0])
+        t = next(dig_iter)
+
+    print(q, len(mods_seen), mods_seen)
