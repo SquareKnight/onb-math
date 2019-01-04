@@ -29,6 +29,7 @@ def get_next_digit(numer, denom):
 
 def attempt_1(n):
     max_cycle_len = 0
+    x_responsible = 0
     for q in range(n, 0, -1):
         dig_iter = get_next_digit(1, q)
         mods_seen = []
@@ -40,10 +41,11 @@ def attempt_1(n):
 
         if len(mods_seen) > max_cycle_len:
             max_cycle_len = len(mods_seen)
+            x_responsible = q
             if len(mods_seen) == (q-1):
-                return q, max_cycle_len
+                return x_responsible
 
-    return  max_cycle_len
+    return  x_responsible
 
 
 def run(n):
