@@ -25,22 +25,97 @@ def probs_31():
 
     print(len(ways_to_make_x[target]))
 
-def get_next_digit(numer, denom):
-    next_dig, modulo = divmod(numer, denom)
-    yield (next_dig, modulo)
+"""
+
+n**2    +   an    +    b
+
+when n == 0:    0**2 + 0a + b   ==> b needs to be prime, also
+                                    b needs to be positive as we don't regard negative numbers to be prime
+        ==> a can be anywhere from -999 to 1000, but
+        ==> if a < 0, b >= |a|, because let n==1, 1**2 + -a + b > 0 only if b 'outweighs' a.
+        
+let n == 1: a + b + 1   ==> the result needs to be a prime, so a+b+1's prime factors list can only be len()==1
+                                
+                                   
+"""
+import solutions.libEuler as e
+import time as t
+
+def get_next_quadratic(a, b):
+    n = 0
     while True:
-        modulo *=10
-        next_dig, modulo = divmod(modulo, denom)
-        yield (next_dig, modulo)
+        yield n**2 + a*n + b
+        n += 1
+
+# 75 secs
+# 46 secs when limiting a to -b
+# 29 secs with (a+b+1) == prime
+# 25 secs with prime factors (x) function quitting early if x is prime
+
+def euler_027():
+    b_primes = e.primes_list(0, 1000)
+    longest_series = (0, 0, 0)
 
 
-for q in range(999, 980, -1):
-    dig_iter = get_next_digit(1, q)
-    mods_seen = []
-    t = next(dig_iter)
-    while t[1] not in mods_seen and t[1] != 0:
-        mods_seen.append(t[1])
-        # print(t[0])
-        t = next(dig_iter)
+    for b in reversed(b_primes):
+        print(b)
+        if b < longest_series[0]:
+            break
+        for a in range(-b, 1000):
+            if len(e.prime_factors(a+b+1)) != 1:
+                continue
 
-    print(q, len(mods_seen), mods_seen)
+            this_series = 0
+            f = get_next_quadratic(a, b)
+            fn = next(f)
+
+            while len(e.prime_factors(fn)) == 1:
+                this_series += 1
+                fn = next(f)
+
+            if this_series > longest_series[0]:
+                longest_series = (this_series, a, b)
+
+    return longest_series
+
+import math
+
+def euler_027_2():
+    def isPrime(n):
+        if n % 2 == 0 or n < 2:
+            return False
+        for test in range(3, int(math.sqrt(n)+1), 2):
+            if n % test == 0:
+                return False
+        return True
+
+    def consec_primes(a,b):
+        n = 0
+        while isPrime(n**2 + a*n + b):
+            n+=1
+        return n
+
+    b_primes = e.primes_list(0, 1000)
+    longest_series = (0, 0, 0)
+
+    for b in reversed(b_primes):
+        print(b)
+        if b < longest_series[0]:
+            break
+        for a in range(-b, 1000):
+            if len(e.prime_factors(a+b+1)) > 1:
+                continue
+
+            this_series = consec_primes(a, b)
+
+            if this_series > longest_series[0]:
+                longest_series = (this_series, a, b)
+
+    return longest_series
+
+
+tx = t.time()
+l = euler_027()
+print(l, l[1] * l[2])
+print(t.time() - tx)
+print(sum(e._sieve_ops), e._sieve_ops)

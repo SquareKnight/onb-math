@@ -2,9 +2,12 @@ import math
 
 __boolean_primes_register = [False, False, True]
 _primes = [2]
+_sieve_ops = []
 
 
 def _sieve_of_eratosthenes(upper):
+    if upper < 1:
+        return
     global _primes, __boolean_primes_register
     upper = int(upper)
     # see how many numbers we've sieved through before
@@ -16,6 +19,7 @@ def _sieve_of_eratosthenes(upper):
 
     # if not, extend the BPR
     __boolean_primes_register.extend([True]*(1 + upper - primes_sieved))
+    _sieve_ops.append(1 + upper - primes_sieved)
 
     # take into account all the primes we've found before
     for p in _primes:
@@ -47,6 +51,17 @@ def _sieve_of_eratosthenes(upper):
     #print(upper, [(i, x) for i, x in enumerate(__boolean_primes_register)], _primes)
 
 
+def is_prime(n):
+    if n < 2 or (n>2 and n % 2 == 0):
+        return False
+
+    for i in range(3, int(math.sqrt(n))+1, 2):
+        if n % i == 0:
+            return False
+
+    return True
+
+
 def prime_factors(n):
     """
     Returns all prime factors of n
@@ -54,9 +69,12 @@ def prime_factors(n):
     :return: list of prime factors, with duplicates if applicable: 4 -> [2, 2]
     """
     global _primes
-    pf = [1]
+    #pf = [1]
+    pf = []
+    n = abs(n)
+    if n < 2:
+        return []
     lim = math.ceil(math.sqrt(n))
-    #print(n, math.sqrt(n), math.ceil(math.sqrt(n)) + 1)
     _sieve_of_eratosthenes(lim)
 
     # Use every prime, in order from 2 to (at least) lim to deconstruct n
@@ -69,12 +87,13 @@ def prime_factors(n):
             pf.append(p)
             n = n / p
 
-
+    # if the above loop didn't fully deconstruct n, then whatever remains is itself prime too
     if n > 1:
         pf.append(n)
 
-    if len(pf) > 1:
-        pf = pf[1::]
+
+    #if len(pf) > 1:
+    #    pf = pf[1::]
     _sieve_of_eratosthenes(pf[-1])
     return pf
 
