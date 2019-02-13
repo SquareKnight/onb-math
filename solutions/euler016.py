@@ -12,4 +12,4 @@ def run(e):
 
 
 if __name__ == '__main__':
-    print(run(15))
+    print(run(1000))

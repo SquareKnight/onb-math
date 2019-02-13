@@ -65,4 +65,4 @@ def run(n):
 
 
 if __name__ == '__main__':
-    print(run(5))
+    print(run(1000))
