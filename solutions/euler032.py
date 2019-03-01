@@ -1,29 +1,16 @@
-import solutions.libEuler as e
+"""Pandigital products
 
+#Multiplication #Pandigital
+We shall say that an n-digit number is pandigital if it makes use of all the digits 1 to n exactly once; for example, the 5-digit number, 15234, is 1 through 5 pandigital.
 
-def probs_31(target):
-  coins = [1, 2, 5, 10, 20, 50, 100, 200]
-  ways_to_make = {c: 1 for c in range(0, target+1)}
+The product 7254 is unusual, as the identity, 39 × 186 = 7254, containing multiplicand, multiplier, and product is 1 through 9 pandigital.
 
-  for c in coins[1:]:
-    for k in ways_to_make:
-      ref_k = k - c
-      if (ref_k) in ways_to_make:
-        ways_to_make[k] += ways_to_make[ref_k]
-      print(c, k, ways_to_make[k])
+Find the sum of all products whose multiplicand/multiplier/product identity can be written as a 1 through 9 pandigital.
 
-  return ways_to_make[target], len(ways_to_make)
+HINT: Some products can be obtained in more than one way so be sure to only include it once in your sum.
+"""
 
-
-
-def find_factor(lst):
-    factor = 0
-    for i in range(max(lst), 0, -1):
-        if all([p%i==0 for p in lst]):
-            factor = i
-            return factor
-
-def e32():
+def attempt_1():
     pandigits = '123456789'
     result = []
 
@@ -58,10 +45,14 @@ def e32():
                     if pdc != pandigits:    # a*b result is too big, we're done here
                         continue
 
-
                     result.append(a*b)
     print(result)
-    return sum(result), sum(set(result))
+    return sum(set(result))
 
-#print(probs_31(200))
-print(e32())
+
+def run():
+    return attempt_1()
+
+
+if __name__ == '__main__':
+    print(run())
