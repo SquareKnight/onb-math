@@ -47,7 +47,7 @@ def attempt_1():
 
                     result.append(a*b)
     print(result)
-    return sum(set(result))
+    return sum(set(result))     # NOte that the Set is to eliminate a pesky duplicate, as hinted on by the Note
 
 
 def run():
