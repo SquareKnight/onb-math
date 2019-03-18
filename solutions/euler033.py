@@ -21,19 +21,6 @@ def cancel_digit(rem_c, s):
     return ''.join(l)
 
 
-def simplify_fraction(n, d):
-    pf_n, pf_d = e.prime_factors(n), e.prime_factors(d)
-    commons = []
-    for pf in set(pf_n + pf_d):
-        commons.extend([pf] * min(pf_n.count(pf), pf_d.count(pf)))
-
-    for pf in commons:
-        pf_n.remove(pf)
-        pf_d.remove(pf)
-
-    return e.product_of_list(pf_n), e.product_of_list(pf_d)
-
-
 def attempt_1(lbound, ubound):
     fractions = []
 
@@ -57,7 +44,7 @@ def attempt_1(lbound, ubound):
         b_f[0] *= f[0]
         b_f[1] *= f[1]
 
-    b_f = simplify_fraction(*b_f)
+    b_f = e.simplify_fraction(*b_f)
 
     return b_f[1]
 

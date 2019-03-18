@@ -177,3 +177,33 @@ def permutate(lst, index):
         return [l.pop(SLOT)] + inner_permutate(l, i)
 
     return inner_permutate(lst, index)
+
+
+def simplify_fraction(n, d):
+    """
+    Simplifies fractions by determining common prime factors and removing those on both the
+    numerator and the denominator.
+    :param n: numerator
+    :param d: denominator
+    :return: new_numerator, new_denominator
+    """
+    pf_n, pf_d = prime_factors(n), prime_factors(d)
+    commons = []
+    for pf in set(pf_n + pf_d):
+        commons.extend([pf] * min(pf_n.count(pf), pf_d.count(pf)))
+
+    for pf in commons:
+        pf_n.remove(pf)
+        pf_d.remove(pf)
+
+    return product_of_list(pf_n), product_of_list(pf_d)
+
+
+def int_to_list(i):
+    """
+    Converts an integer to a list of digits
+    :param i: integer
+    :return: yields the digits
+    """
+    for c in str(abs(i)):
+        yield int(c)

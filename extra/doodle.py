@@ -20,35 +20,9 @@ def simplify_fraction(numer, denom):
     return e.product_of_list(f_n), e.product_of_list(f_d)
 
 
-def e33(l, u):
-    r_d, r_n = 1, 1
-    for denom in [str(s) for s in range(l, u+1)]:
-        denom_int = int(denom)
-        if denom_int % 10 == 0:
-            # we don't want denominator 10, 20, 30 ...
-            continue
-
-        for numer in [str(s) for s in range(l, denom_int)]:
-            numer_int = int(numer)
-
-            # Now to cancel, we check for each digit of the denominator
-            for c in numer:
-                if c in denom:
-                    # to see if we can cancel that digit in the numerator too
-                    new_d = denom.replace(c, '', 1)
-                    new_d_int = int(new_d)
-                    new_n = numer.replace(c, '', 1)
-                    new_n_int = int(new_n)
-
-                    if (numer_int / denom_int) == new_n_int / new_d_int:
-                        r_d *= new_d_int
-                        r_n *= new_n_int
-    print(r_n, r_d)
-    a, b = simplify_fraction(r_n, r_d)
-    print(a, b)
-    return b
+def int_to_list(i):
+    return [int(c) for c in str(abs(i))]
 
 
-#print(probs_31(200))
-#print(e32())
-print(e33(10, 99))
+for x in (1, 10, 11, -10, 123, 145, 9999):
+    print(x, int_to_list(x))
