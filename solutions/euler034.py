@@ -32,14 +32,24 @@ def attempt_2():
         s_f = 0
         for d in e.int_to_list(i):
             s_f += factorials[d]
+
         if s_f == i:
             r += i
 
     return r
 
 
+def attempt_3():
+    r = 0
+    for a in range(10, 2540160):
+        ld = sum([factorial(int(c)) for c in str(a)])
+        if ld == a:
+            print(a)
+            r += a
+    return r
+
 def run():
-    return attempt_2()
+    return attempt_3()
 
 
 if __name__ == '__main__':
