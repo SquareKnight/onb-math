@@ -1,6 +1,7 @@
 import math
 
 __boolean_primes_register = [False, False, True]
+__primes_sieved = 3
 _primes = [2]
 _sieve_ops = []
 
@@ -8,24 +9,23 @@ _sieve_ops = []
 def _sieve_of_eratosthenes(upper):
     if upper < 1:
         return
-    global _primes, __boolean_primes_register
+    global _primes, __boolean_primes_register, __primes_sieved
     upper = int(upper)
     # see how many numbers we've sieved through before
-    primes_sieved = len(__boolean_primes_register)
 
     # If we've already checked everything up to Upper, then quit the function
-    if primes_sieved > upper:
+    if __primes_sieved > upper:
         return
 
     # if not, extend the BPR
-    __boolean_primes_register.extend([True]*(1 + upper - primes_sieved))
-    _sieve_ops.append(1 + upper - primes_sieved)
+    __boolean_primes_register.extend([True]*(1 + upper - __primes_sieved))
+    _sieve_ops.append(1 + upper - __primes_sieved)
 
     # take into account all the primes we've found before
     for p in _primes:
         # check to see where the first multiple lies in the range (already solved) ... (upper bound):
-        mod = primes_sieved % p
-        lower = primes_sieved - mod + (p if mod > 0 else 0)
+        mod = __primes_sieved % p
+        lower = __primes_sieved - mod + (p if mod > 0 else 0)
         if p*p > upper:
             break
 
@@ -33,7 +33,7 @@ def _sieve_of_eratosthenes(upper):
             __boolean_primes_register[multiple] = False
 
     # then apply the regular Sieve of E.
-    for i in range(primes_sieved, upper + 1):
+    for i in range(__primes_sieved, upper + 1):
         if not __boolean_primes_register[i]:
             continue
 
@@ -44,12 +44,12 @@ def _sieve_of_eratosthenes(upper):
             __boolean_primes_register[multiple] = False
 
     # now add all the new-found primes to _primes
-    for i in range(primes_sieved, upper + 1):
+    for i in range(__primes_sieved, upper + 1):
         if __boolean_primes_register[i]:
             _primes.append(i)
 
+    __primes_sieved = len(__boolean_primes_register)
     #print(upper, [(i, x) for i, x in enumerate(__boolean_primes_register)], _primes)
-
 
 def is_prime(n):
     if n < 2 or (n>2 and n % 2 == 0):
